@@ -1,0 +1,35 @@
+---
+- hosts: test
+  tasks:
+  - name: Create group
+    artifactory_group:
+        artifactory_url: "http://localhost:8081"
+        artifactory_username: "admin"
+        artifactory_password: "password"
+
+        action: "create"
+        name: "test_group"
+        description: "group for testing"
+
+- hosts: test
+  tasks:
+  - name: Update group
+    artifactory_group:
+        artifactory_url: "http://localhost:8081"
+        artifactory_username: "admin"
+        artifactory_password: "password"
+
+        action: "update"
+        name: "test_group"
+        auto_join: True
+
+- hosts: test
+  tasks:
+  - name: Delete group
+    artifactory_group:
+        artifactory_url: "http://localhost:8081"
+        artifactory_username: "admin"
+        artifactory_password: "password"
+
+        action: "delete"
+        name: "test_group"
