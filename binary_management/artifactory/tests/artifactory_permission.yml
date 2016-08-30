@@ -1,0 +1,80 @@
+---
+- hosts: test
+  tasks:
+  - name: Create permission
+    artifactory_permission:
+        artifactory_url: "http://localhost:8081"
+        artifactory_username: "admin"
+        artifactory_password: "password"
+
+        action: "create"
+        name: "test_permissions"
+        repositories: ["test-local-repo"]
+
+        permissions:
+            users:
+                first.last: ["r","w","m"]
+            groups:
+                readers: ["r"]
+
+- hosts: test
+  tasks:
+  - name: Update permission
+    artifactory_permission:
+        artifactory_url: "http://localhost:8081"
+        artifactory_username: "admin"
+        artifactory_password: "password"
+
+        action: "update"
+        name: "test_permissions"
+        repositories: ["test-local-repo", "ANY"]
+
+        permissions:
+            users:
+                first.last: ["r"]
+            groups:
+                readers: ["r"]
+
+- hosts: test
+  tasks:
+  - name: Delete permission
+    artifactory_permission:
+        artifactory_url: "http://localhost:8081"
+        artifactory_username: "admin"
+        artifactory_password: "password"
+
+        action: "delete"
+        name: "test_permissions"
+
+- hosts: test
+  tasks:
+  - name: Bulk create permissions
+    artifactory_permission:
+        artifactory_url: "http://localhost:8081"
+        artifactory_username: "admin"
+        artifactory_password: "password"
+
+        action: "bulk_create"
+        path: "samples/artifactory_permissions.yml"
+
+- hosts: test
+  tasks:
+  - name: Bulk update permissions
+    artifactory_permission:
+        artifactory_url: "http://localhost:8081"
+        artifactory_username: "admin"
+        artifactory_password: "password"
+
+        action: "bulk_update"
+        path: "samples/artifactory_permissions.yml"
+
+- hosts: test
+  tasks:
+  - name: Bulk delete permissions
+    artifactory_permission:
+        artifactory_url: "http://localhost:8081"
+        artifactory_username: "admin"
+        artifactory_password: "password"
+
+        action: "bulk_delete"
+        path: "samples/artifactory_permissions.yml"
