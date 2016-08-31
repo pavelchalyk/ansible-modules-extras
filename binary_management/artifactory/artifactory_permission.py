@@ -178,10 +178,19 @@ def create_permission(artifactory, params):
 def update_permission(artifactory, params):
     permission = artifactory.security.permissions.fetch(
             params.get("name", ""))
-    permission.repositories = params.get("repositories") if params.get("repositories") else permission.repositories
-    permission.principals = params.get("permissions") if params.get("permissions") else permission.principals
-    permission.includes_pattern = params.get("includes_pattern") if params.get("includes_pattern") else permission.includes_pattern
-    permission.excludes_pattern = params.get("excludes_pattern") if params.get("excludes_pattern") else permission.excludes_pattern
+
+    if params.get("repositories"):
+        permission.repositories = params.get("repositories")
+
+    if params.get("permissions"):
+        permission.principals = params.get("permissions")
+
+    if params.get("includes_pattern"):
+        permission.includes_pattern = params.get("includes_pattern")
+
+    if params.get("excludes_pattern"):
+        permission.excludes_pattern = params.get("excludes_pattern")
+
     return permission.update()
 
 

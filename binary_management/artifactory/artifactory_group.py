@@ -176,11 +176,23 @@ def main():
 
             group = artifactory.security.groups.fetch(
                     params.get("name"))
-            group.name = params.get("name") if params.get("name") else group.name
-            group.description = params.get("description") if params.get("description") else group.description
-            group.auto_join = params.get("auto_join") if params.get("auto_join") else group.auto_join
-            group.realm = params.get("realm") if params.get("realm") else group.realm
-            group.realm_attributes = params.get("realm_attributes") if params.get("realm_attributes") else ""
+
+            if params.get("name"):
+                group.name = params.get("name")
+
+            if params.get("description"):
+                group.description = params.get("description")
+
+            if params.get("auto_join"):
+                group.auto_join = params.get("auto_join")
+
+            if params.get("realm"):
+                group.realm = params.get("realm")
+
+            if params.get("realm_attributes"):
+                group.realm_attributes = params.get("realm_attributes")
+            else:
+                group.realm_attributes = ""
 
             response = group.update()
             module.exit_json(changed=True, msg=response)
