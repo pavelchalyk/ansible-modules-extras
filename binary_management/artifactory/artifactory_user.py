@@ -192,13 +192,30 @@ def main():
             user = artifactory.security.users.fetch(
                     params.get("name"))
 
-            user.name = params.get("name") if params.get("name") else user.name
-            user.password = params.get("password") if params.get("password") else ""
-            user.email = params.get("email") if params.get("email") else user.email
-            user.groups = params.get("groups") if params.get("groups") else user.groups
-            user.admin = params.get("admin") if params.get("admin") else user.admin
-            user.profile_updatable = params.get("profile_updatable") if params.get("profile_updatable") else user.profile_updatable
-            user.internal_password_disabled = params.get("internal_password_disabled") if params.get("internal_password_disabled") else False
+            if params.get("name"):
+                user.name = params.get("name")
+
+            if params.get("password"):
+                user.password = params.get("password")
+            else:
+                user.password = ""
+
+            if params.get("email"):
+                user.email = params.get("email")
+
+            if params.get("groups"):
+                user.groups = params.get("groups")
+
+            if params.get("admin"):
+                user.admin = params.get("admin")
+
+            if params.get("profile_updatable"):
+                user.profile_updatable = params.get("profile_updatable")
+
+            if params.get("internal_password_disabled"):
+                user.internal_password_disabled = params.get("internal_password_disabled")
+            else:
+                user.internal_password_disabled = False
 
             response = user.update()
             module.exit_json(changed=True, msg=response)
