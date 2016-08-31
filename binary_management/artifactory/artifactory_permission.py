@@ -1,25 +1,36 @@
 #!/usr/bin/python
-
-# Ansible artifactory permission module
+# -*- coding: utf-8 -*-
+#
+# Copyright (C) 2016 Veritas LLC
+#
+# This file is part of Ansible.
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 DOCUMENTATION = """
 ---
 module: artifactory_permission
-
-short_description: Artifactory module to manager permission
-
+short_description: Artifactory module to manage permissions
 description:
     - Create new permissions
     - Update permissions
     - Remove permissions
-
-version_added: "0.1"
-
-author: "Veritas"
-
+version_added: "2.2"
+author: "Prathamesh Nevagi (@pratz)"
 requirements:
+    - python 2.x (2.4, 2.5, 2.6, 2.7)
     - https://github.com/veritasos/py-artifactory.git
-
 options:
     artifactory_url:
         description:
@@ -72,11 +83,9 @@ EXAMPLES = """
         artifactory_url: "http://localhost:8081"
         artifactory_username: "admin"
         artifactory_password: "password"
-
         action: "create"
         name: "test_permissions"
         repositories: ["test-local-repo"]
-
         permissions:
             users:
                 first.last: ["r","w","m"]
@@ -90,11 +99,9 @@ EXAMPLES = """
         artifactory_url: "http://localhost:8081"
         artifactory_username: "admin"
         artifactory_password: "password"
-
         action: "update"
         name: "test_permissions"
         repositories: ["test-local-repo", "ANY"]
-
         permissions:
             users:
                 first.last: ["r"]
@@ -108,7 +115,6 @@ EXAMPLES = """
         artifactory_url: "http://localhost:8081"
         artifactory_username: "admin"
         artifactory_password: "password"
-
         action: "delete"
         name: "test_permissions"
 
@@ -119,7 +125,6 @@ EXAMPLES = """
         artifactory_url: "http://localhost:8081"
         artifactory_username: "admin"
         artifactory_password: "password"
-
         action: "bulk_create"
         path: "samples/artifactory_permissions.yml"
 
@@ -130,7 +135,6 @@ EXAMPLES = """
         artifactory_url: "http://localhost:8081"
         artifactory_username: "admin"
         artifactory_password: "password"
-
         action: "bulk_create"
         path: "samples/artifactory_permissions.yml"
 
@@ -141,9 +145,48 @@ EXAMPLES = """
         artifactory_url: "http://localhost:8081"
         artifactory_username: "admin"
         artifactory_password: "password"
-
         action: "bulk_delete"
         path: "samples/artifactory_permissions.yml"
+
+
+# Bulk permission sample
+---
+projects:
+  silicon_valley:
+     artifactory:
+         permission:
+             - name: "silicon_valley_permission"
+               repositories: ["test-local-repo"]
+
+               permissions:
+                   users:
+                       first.last: ["d", "r","w","m"]
+                       anonymous: ["d", "r","w","m"]
+
+  mr_robot:
+     artifactory:
+         permission:
+             - name: "mr_robot_permission1"
+               repositories: ["test-local-repo"]
+
+               permissions:
+                   users:
+                       first.last: ["r","w","m"]
+                   groups:
+                       readers: ["r"]
+
+             - name: "mr_robot_permission2"
+               repositories: ["test-local-repo"]
+
+               permissions:
+                   groups:
+                       readers: ["r"]
+"""
+
+RETURN = """
+response:
+    description: Response retured from Artifactory server
+    type: string
 """
 
 # stdlib imports

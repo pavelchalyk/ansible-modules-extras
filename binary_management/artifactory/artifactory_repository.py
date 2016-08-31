@@ -1,31 +1,35 @@
 #!/usr/bin/python
-
-# Artifactory module to manage repositories
+# -*- coding: utf-8 -*-
+#
+# Copyright (C) 2016 Veritas LLC
+#
+# This file is part of Ansible.
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 DOCUMENTATION = """
 ---
 module: artifactory_repository
-
 short_description: Artifactory module to manage repositories
-
 description:
     - Create local/remote/virtual repositories.
     - Delete local/remote/virtual repositories.
-
-version_added: "0.1"
-
-author: "Veritas"
-
-notes:
-    - Artifactory details set as environment variables
-        - ARTIFACTORY_URL
-        - ARTIFACTORY_USERNAME
-        - ARTIFACTORY_PASSWORD
-    - or passing as arguments to modules
-
+version_added: "2.2"
+author: "Prathamesh Nevagi (@pratz)"
 requirements:
+    - python 2.x (2.4, 2.5, 2.6, 2.7)
     - https://github.com/veritasos/py-artifactory.git
-
 options:
     action:
         description:
@@ -58,9 +62,9 @@ options:
         required: false
         default: string
 
-    All artifactory repository options are loaded dynamically
-    Supported options:
-        https://www.jfrog.com/confluence/display/RTF/Repository+Configuration+JSON
+    # All artifactory repository options are loaded dynamically
+    # Supported options:
+    #     https://www.jfrog.com/confluence/display/RTF/Repository+Configuration+JSON
 """
 
 EXAMPLES = """
@@ -72,7 +76,6 @@ EXAMPLES = """
         artifactory_url: "http://localhost:8081"
         artifactory_username: "admin"
         artifactory_password: "password"
-
         action: "create"
         type: "local"
         key: "test-local-repo"
@@ -85,7 +88,6 @@ EXAMPLES = """
         artifactory_url: "http://localhost:8081"
         artifactory_username: "admin"
         artifactory_password: "password"
-
         action: "create"
         type: "remote"
         key: "test-remote-repo"
@@ -99,7 +101,6 @@ EXAMPLES = """
         artifactory_url: "http://localhost:8081"
         artifactory_username: "admin"
         artifactory_password: "password"
-
         action: "create"
         type: "virtual"
         key: "test-virtual-repo"
@@ -113,7 +114,6 @@ EXAMPLES = """
         artifactory_url: "http://localhost:8081"
         artifactory_username: "admin"
         artifactory_password: "password"
-
         action: "delete"
         key: "test-virtual-repo"
 
@@ -124,7 +124,6 @@ EXAMPLES = """
         artifactory_url: "http://localhost:8081"
         artifactory_username: "admin"
         artifactory_password: "password"
-
         action: "bulk_create"
         path: "samples/artifactory_repositories.yml"
 
@@ -135,9 +134,58 @@ EXAMPLES = """
         artifactory_url: "http://localhost:8081"
         artifactory_username: "admin"
         artifactory_password: "password"
-
         action: "bulk_delete"
         path: "samples/artifactory_repositories.yml"
+
+# Bulk repositories sample
+---
+projects:
+  silicon_valley:
+     artifactory:
+         repositories:
+             local:
+                 - key: "silicon_valley-local1-repo"
+                   package_type: "maven"
+                   handle_snapshots: false
+                 - key: "silicon_valley-local2-repo"
+                   package_type: "docker"
+             remote:
+                 - key: "silicon_valley-remote1-repo"
+                   package_type: "maven"
+                   url: "http://hub.docker.com"
+                 - key: "silicon_valley-remote2-repo"
+                   package_type: "docker"
+                   url: "http://hub.docker.com"
+             virtual:
+                 - key: "silicon_valley-virtual1-repo"
+                   package_type: "maven"
+                   repositories: ["silicon_valley-local1-repo"]
+
+  mr_robot:
+     artifactory:
+         repositories:
+             local:
+                 - key: "mr_robot-local1-repo"
+                   package_type: "maven"
+                 - key: "mr_robot-local2-repo"
+                   package_type: "docker"
+             remote:
+                 - key: "mr_robot-remote1-repo"
+                   package_type: "maven"
+                   url: "http://hub.docker.com"
+                 - key: "mr_robot-remote2-repo"
+                   package_type: "docker"
+                   url: "http://hub.docker.com"
+             virtual:
+                 - key: "mr_robot-virtual1-repo"
+                   package_type: "maven"
+                   repositories: ["mr_robot-local1-repo"]
+"""
+
+RETURN = """
+response:
+    description: Response retured from Artifactory server
+    type: string
 """
 
 # stdlib imports

@@ -32,19 +32,10 @@ Ansible artifactory modules to manage jFrog artifactory
             ARTIFACTORY_REDIRECT = "binary_management"
 
 
+#### Usage examples
 
-#### Available artifactory modules
-- [Artifactory User](docs/user.md)
-- [Artifactory Group](docs/group.md)
-- [Artifactory Permission](docs/permission.md)
-- [Artifactory Repository](docs/repository.md)
-- [Artifactory LDAP](docs/ldap.md)
-- [Artifactory User Api Key](docs/apikey.md)
-
-
-#### Testing
-
-    ansible-playbook -i tests/inventory tests/artifactory_repository.yml
+    ansible-doc <module_name>
+    ansible-doc artifactory_apikey
 
 
 #### Note
