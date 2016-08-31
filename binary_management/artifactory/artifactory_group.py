@@ -1,25 +1,36 @@
 #!/usr/bin/python
-
-# Ansible artifactory group module
+# -*- coding: utf-8 -*-
+#
+# Copyright (C) 2016 Veritas LLC
+#
+# This file is part of Ansible.
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 DOCUMENTATION = """
 ---
 module: artifactory_group
-
-short_description: Artifactory module to manager groups
-
+short_description: Artifactory module to manage groups
 description:
     - Create new groups
     - Update groups
     - Remove groups
-
-version_added: "0.1"
-
-author: "Veritas"
-
+version_added: "2.2"
+author: "Prathamesh Nevagi (@pratz)"
 requirements:
+    - python 2.x (2.4, 2.5, 2.6, 2.7)
     - https://github.com/veritasos/py-artifactory.git
-
 options:
     artifactory_url:
         description:
@@ -77,7 +88,6 @@ EXAMPLES = """
         artifactory_url: "http://localhost:8081"
         artifactory_username: "admin"
         artifactory_password: "password"
-
         action: "create"
         name: "test_group"
         description: "group for testing"
@@ -89,7 +99,6 @@ EXAMPLES = """
         artifactory_url: "http://localhost:8081"
         artifactory_username: "admin"
         artifactory_password: "password"
-
         action: "update"
         name: "test_group"
         auto_join: True
@@ -101,9 +110,14 @@ EXAMPLES = """
         artifactory_url: "http://localhost:8081"
         artifactory_username: "admin"
         artifactory_password: "password"
-
         action: "delete"
         name: "test_group"
+"""
+
+RETURN = """
+response:
+    description: Response retured from Artifactory server
+    type: string
 """
 
 # stdlib imports
