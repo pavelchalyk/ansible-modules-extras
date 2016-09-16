@@ -135,7 +135,7 @@ EXAMPLES = """
         artifactory_url: "http://localhost:8081"
         artifactory_username: "admin"
         artifactory_password: "password"
-        action: "bulk_create"
+        action: "bulk_update"
         path: "samples/artifactory_permissions.yml"
 
 - hosts: test

@@ -389,56 +389,59 @@ def main():
 
             for project_name, services in params.get("projects").iteritems():
 
-                # create local repo
-                if services.get("artifactory").get("repositories").get("local"):
-                    for local_params in services.get("artifactory").get("repositories").get("local"):
+                if (services.get("artifactory")
+                        and services.get("artifactory").get("repositories")):
 
-                        if suffix:
-                            local_params["key"] = "{0}{1}".format(
-                                    local_params.get("key"), suffix)
+                    # create local repo
+                    if services.get("artifactory").get("repositories").get("local"):
+                        for local_params in services.get("artifactory").get("repositories").get("local"):
 
-                        try:
-                            artifactory.repository.fetch(local_params.get("key"))
-                            response.append("Repository {0} already exists".format(
-                                local_params.get("key")))
-                        except Exception:
-                            response.append(create_local(
-                                artifactory, local_params))
-                            changed = True
+                            if suffix:
+                                local_params["key"] = "{0}{1}".format(
+                                        local_params.get("key"), suffix)
 
-                # create remote repo
-                if services.get("artifactory").get("repositories").get("remote"):
-                    for remote_params in services.get("artifactory").get("repositories").get("remote"):
+                            try:
+                                artifactory.repository.fetch(local_params.get("key"))
+                                response.append("Repository {0} already exists".format(
+                                    local_params.get("key")))
+                            except Exception:
+                                response.append(create_local(
+                                    artifactory, local_params))
+                                changed = True
 
-                        if suffix:
-                            remote_params["key"] = "{0}{1}".format(
-                                    remote_params.get("key"), suffix)
+                    # create remote repo
+                    if services.get("artifactory").get("repositories").get("remote"):
+                        for remote_params in services.get("artifactory").get("repositories").get("remote"):
 
-                        try:
-                            artifactory.repository.fetch(remote_params.get("key"))
-                            response.append("Repository {0} already exists".format(
-                                remote_params.get("key")))
-                        except Exception:
-                            response.append(create_remote(
-                                artifactory, remote_params))
-                            changed = True
+                            if suffix:
+                                remote_params["key"] = "{0}{1}".format(
+                                        remote_params.get("key"), suffix)
 
-                # create virtual repo
-                if services.get("artifactory").get("repositories").get("virtual"):
-                    for virtual_params in services.get("artifactory").get("repositories").get("virtual"):
+                            try:
+                                artifactory.repository.fetch(remote_params.get("key"))
+                                response.append("Repository {0} already exists".format(
+                                    remote_params.get("key")))
+                            except Exception:
+                                response.append(create_remote(
+                                    artifactory, remote_params))
+                                changed = True
 
-                        if suffix:
-                            virtual_params["key"] = "{0}{1}".format(
-                                    virtual_params.get("key"), suffix)
+                    # create virtual repo
+                    if services.get("artifactory").get("repositories").get("virtual"):
+                        for virtual_params in services.get("artifactory").get("repositories").get("virtual"):
 
-                        try:
-                            artifactory.repository.fetch(virtual_params.get("key"))
-                            response.append("Repository {0} already exists".format(
-                                virtual_params.get("key")))
-                        except Exception:
-                            response.append(create_virtual(
-                                artifactory, virtual_params))
-                            changed = True
+                            if suffix:
+                                virtual_params["key"] = "{0}{1}".format(
+                                        virtual_params.get("key"), suffix)
+
+                            try:
+                                artifactory.repository.fetch(virtual_params.get("key"))
+                                response.append("Repository {0} already exists".format(
+                                    virtual_params.get("key")))
+                            except Exception:
+                                response.append(create_virtual(
+                                    artifactory, virtual_params))
+                                changed = True
 
             module.exit_json(changed=changed, msg=response)
         except Exception, e:
@@ -452,52 +455,55 @@ def main():
 
             for project_name, services in params.get("projects").iteritems():
 
-                # create local repo
-                if services.get("artifactory").get("repositories").get("local"):
-                    for local_params in services.get("artifactory").get("repositories").get("local"):
+                if (services.get("artifactory")
+                        and services.get("artifactory").get("repositories")):
 
-                        if suffix:
-                            local_params["key"] = "{0}{1}".format(
-                                    local_params.get("key"), suffix)
+                    # create local repo
+                    if services.get("artifactory").get("repositories").get("local"):
+                        for local_params in services.get("artifactory").get("repositories").get("local"):
 
-                        try:
-                            repo = artifactory.repository.fetch(local_params.get("key"))
-                            response.append(repo.remove())
-                            changed = True
-                        except Exception:
-                            response.append("Repository {0} not found".format(
-                                local_params.get("key")))
+                            if suffix:
+                                local_params["key"] = "{0}{1}".format(
+                                        local_params.get("key"), suffix)
 
-                # create remote repo
-                if services.get("artifactory").get("repositories").get("remote"):
-                    for remote_params in services.get("artifactory").get("repositories").get("remote"):
+                            try:
+                                repo = artifactory.repository.fetch(local_params.get("key"))
+                                response.append(repo.remove())
+                                changed = True
+                            except Exception:
+                                response.append("Repository {0} not found".format(
+                                    local_params.get("key")))
 
-                        if suffix:
-                            remote_params["key"] = "{0}{1}".format(
-                                    remote_params.get("key"), suffix)
-                        try:
-                            repo = artifactory.repository.fetch(remote_params.get("key"))
-                            response.append(repo.remove())
-                            changed = True
-                        except Exception:
-                            response.append("Repository {0} not found".format(
-                                remote_params.get("key")))
+                    # create remote repo
+                    if services.get("artifactory").get("repositories").get("remote"):
+                        for remote_params in services.get("artifactory").get("repositories").get("remote"):
 
-                # create virtual repo
-                if services.get("artifactory").get("repositories").get("virtual"):
-                    for virtual_params in services.get("artifactory").get("repositories").get("virtual"):
+                            if suffix:
+                                remote_params["key"] = "{0}{1}".format(
+                                        remote_params.get("key"), suffix)
+                            try:
+                                repo = artifactory.repository.fetch(remote_params.get("key"))
+                                response.append(repo.remove())
+                                changed = True
+                            except Exception:
+                                response.append("Repository {0} not found".format(
+                                    remote_params.get("key")))
 
-                        if suffix:
-                            virtual_params["key"] = "{0}{1}".format(
-                                    virtual_params.get("key"), suffix)
+                    # create virtual repo
+                    if services.get("artifactory").get("repositories").get("virtual"):
+                        for virtual_params in services.get("artifactory").get("repositories").get("virtual"):
 
-                        try:
-                            repo = artifactory.repository.fetch(virtual_params.get("key"))
-                            response.append(repo.remove())
-                            changed = True
-                        except Exception:
-                            response.append("Repository {0} not found".format(
-                                virtual_params.get("key")))
+                            if suffix:
+                                virtual_params["key"] = "{0}{1}".format(
+                                        virtual_params.get("key"), suffix)
+
+                            try:
+                                repo = artifactory.repository.fetch(virtual_params.get("key"))
+                                response.append(repo.remove())
+                                changed = True
+                            except Exception:
+                                response.append("Repository {0} not found".format(
+                                    virtual_params.get("key")))
 
             module.exit_json(changed=changed, msg=response)
         except Exception, e:
